@@ -15,8 +15,7 @@ var (
 )
 
 func MakeMove(c context.Context, now time.Time, database db.Database, round int, lang, boardID, userID, move string) (board Board, err error) {
-	board.ID = boardID
-	if err = database.Get(c, &board); err != nil {
+	if board, err = GetBoardByID(c, database, boardID); err != nil {
 		if db.IsNotFound(err) {
 			err = nil
 			// New canvas

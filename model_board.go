@@ -4,18 +4,22 @@ import (
 	"github.com/strongo/db"
 	"time"
 	"github.com/strongo/slices"
+	"context"
 )
 
 const BoardKind = "B"
 
 type BoardEntity struct {
-	Created   time.Time
-	UserIDs   []string
-	UserTimes []time.Time                    `datastore:",noindex"`
-	UserMoves slices.CommaSeparatedValuesList `datastore:",noindex"`
-	UserWins  []int                          `datastore:",noindex"`
-	Lang      string                         `datastore:",noindex"`
-	Round     int                            `datastore:",noindex"`
+	Created        time.Time
+	UserIDs        []string
+	UserNames      []string                        `datastore:",noindex"`
+	UserTimes      []time.Time                     `datastore:",noindex"`
+	UserMoves      slices.CommaSeparatedValuesList `datastore:",noindex"`
+	UserWinCounts  []int                           `datastore:",noindex"`
+	DrawsCount     int                             `datastore:",noindex"`
+	Round          int                             `datastore:",noindex"`
+	Lang           string                          `datastore:",noindex"`
+	LeftTournament time.Time                       `datastore:",noindex"`
 }
 
 type Board struct {
@@ -39,4 +43,10 @@ func (canvas Board) Entity() interface{} {
 
 func (canvas Board) NewEntity() interface{} {
 	return &BoardEntity{}
+}
+
+func GetBoardByID(c context.Context, database db.Database, boardID string) (board Board, err error) {
+	board.ID = boardID
+	err = database.Get(c, &board)
+	return
 }
