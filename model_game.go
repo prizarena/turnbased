@@ -5,7 +5,7 @@ import (
 	"github.com/strongo/db"
 )
 
-type GameEntity struct {
+type PlayEntity struct {
 	Created      time.Time
 	UserIDs      []string
 	TournamentID string    `datastore:",omitempty"`
@@ -14,12 +14,12 @@ type GameEntity struct {
 	Finished     time.Time `datastore:",omitempty"`
 }
 
-type SingleTurnGameEntity struct {
-	GameEntity
+type SingleTurnPlayEntity struct {
+	PlayEntity
 	UserMoves []string
 }
 
-type SingleTurnGame struct {
+type SingleTurnPlay struct {
 	db.StringID
-	*SingleTurnGameEntity
+	*SingleTurnPlayEntity
 }
