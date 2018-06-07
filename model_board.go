@@ -14,12 +14,12 @@ type BoardEntity struct {
 	UserIDs        []string
 	UserNames      []string                        `datastore:",noindex"`
 	UserTimes      []time.Time                     `datastore:",noindex"`
-	UserMoves      slices.CommaSeparatedValuesList `datastore:",noindex"`
+	UserMoves      slices.CommaSeparatedValuesList `datastore:",noindex,omitempty"`
 	UserWinCounts  []int                           `datastore:",noindex"`
-	DrawsCount     int                             `datastore:",noindex"`
-	Round          int                             `datastore:",noindex"`
-	Lang           string                          `datastore:",noindex"`
-	LeftTournament time.Time                       `datastore:",noindex"`
+	DrawsCount     int                             `datastore:",noindex,omitempty"`
+	Round          int                             `datastore:",noindex,omitempty"`
+	Lang           string                          `datastore:",noindex,omitempty"`
+	LeftTournament time.Time                       `datastore:",noindex,omitempty"`
 }
 
 type Board struct {
