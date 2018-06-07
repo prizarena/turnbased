@@ -14,7 +14,7 @@ var (
 	ErrUnknownRound = errors.New("unknown round")
 )
 
-func MakeMove(c context.Context, now time.Time, database db.Database, round int, lang, boardID, userID, move string) (board Board, err error) {
+func MakeMove(c context.Context, now time.Time, database db.Database, round int, lang, boardID, userID, userName, move string) (board Board, err error) {
 	if board, err = GetBoardByID(c, database, boardID); err != nil {
 		if db.IsNotFound(err) {
 			err = nil
@@ -28,6 +28,7 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 				Round: round,
 				Created: now,
 				UserIDs: []string{userID},
+				UserNames: []string{userName},
 				UserMoves: slices.CommaSeparatedValuesList(move),
 				UserTimes: []time.Time{now},
 			}
@@ -54,6 +55,7 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 			board.UserMoves = slices.CommaSeparatedValuesList(move)
 		} else {
 			board.UserIDs = append(board.UserIDs, userID)
+			board.UserNames = append(board.UserNames, userName)
 			board.UserMoves = board.UserMoves.Add(move)
 			board.UserTimes = append(board.UserTimes, now)
 		}

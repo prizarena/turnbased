@@ -9,18 +9,19 @@ import (
 
 func TestMakeMove(t *testing.T) {
 	testCases := []struct {
-		round int
+		round           int
 		userID          string
+		userName        string
 		move            string
 		expectedUserIDs []string
 		expectedMoves   []string
 	}{
-		{1, "u1", "rock", []string{"u1"}, []string{"rock"}},
-		{1, "u1", "paper", []string{"u1"}, []string{"paper"}},
-		{1, "u2", "scissors", []string{"u1", "u2"}, []string{"paper", "scissors"}},
+		{1, "u1", "first", "rock", []string{"u1"}, []string{"rock"}},
+		{1, "u1", "first", "paper", []string{"u1"}, []string{"paper"}},
+		{1, "u2", "second", "scissors", []string{"u1", "u2"}, []string{"paper", "scissors"}},
 		{expectedUserIDs: []string{"u1", "u2"}, expectedMoves: []string{}},
-		{2, "u2", "rock", []string{"u1", "u2"}, []string{"", "rock"}},
-		{2, "u1", "paper", []string{"u1", "u2"}, []string{"paper", "rock"}},
+		{2, "u2", "second", "rock", []string{"u1", "u2"}, []string{"", "rock"}},
+		{2, "u1", "first", "paper", []string{"u1", "u2"}, []string{"paper", "rock"}},
 	}
 
 	var board Board
@@ -35,7 +36,7 @@ func TestMakeMove(t *testing.T) {
 		if testCase.round == 0 {
 			NextRound(board)
 		} else {
-			board, err = MakeMove(c, time.Now(), database, testCase.round, "en-US", "abc", testCase.userID, testCase.move)
+			board, err = MakeMove(c, time.Now(), database, testCase.round, "en-US", "abc", testCase.userID, testCase.userName, testCase.move)
 			if err != nil {
 				t.Fatalf("Unexpected error: %v", err)
 			}
