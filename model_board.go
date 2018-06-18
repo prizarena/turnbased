@@ -11,6 +11,7 @@ const BoardKind = "B"
 
 type BoardEntity struct {
 	Created        time.Time
+	TournamentID   string
 	UserIDs        []string
 	UserNames      []string                        `datastore:",noindex"`
 	UserTimes      []time.Time                     `datastore:",noindex"`
