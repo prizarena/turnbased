@@ -21,7 +21,7 @@ func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaTo
 			return err
 		}
 	}
-	board.LeftTournament = time.Now()
+	board.TournamentLeft = time.Now()
 	if err = database.Update(c, &board); err != nil {
 		return
 	}

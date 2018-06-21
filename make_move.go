@@ -24,11 +24,13 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 				return
 			}
 			board.BoardEntity = &BoardEntity{
-				Lang: lang,
-				Round: round,
-				Created: now,
-				UserIDs: []string{userID},
-				UserNames: []string{userName},
+				BoardEntityBase: BoardEntityBase{
+					Lang: lang,
+					Round: round,
+					Created: now,
+					UserIDs: []string{userID},
+					UserNames: []string{userName},
+				},
 				UserMoves: slices.CommaSeparatedValuesList(move),
 				UserTimes: []time.Time{now},
 			}

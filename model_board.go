@@ -9,18 +9,23 @@ import (
 
 const BoardKind = "B"
 
+type BoardEntityBase struct {
+	Created          time.Time
+	UserIDs          []string
+	UserNames        []string  `datastore:",noindex"`
+	Round            int       `datastore:",noindex,omitempty"`
+	Lang             string    `datastore:",noindex,omitempty"`
+	TournamentID     string
+	TournamentLeft   time.Time `datastore:",noindex,omitempty"`
+	TournamentJoined time.Time `datastore:",noindex,omitempty"`
+}
+
 type BoardEntity struct {
-	Created        time.Time
-	TournamentID   string
-	UserIDs        []string
-	UserNames      []string                        `datastore:",noindex"`
-	UserTimes      []time.Time                     `datastore:",noindex"`
-	UserMoves      slices.CommaSeparatedValuesList `datastore:",noindex,omitempty"`
-	UserWinCounts  []int                           `datastore:",noindex"`
-	DrawsCount     int                             `datastore:",noindex,omitempty"`
-	Round          int                             `datastore:",noindex,omitempty"`
-	Lang           string                          `datastore:",noindex,omitempty"`
-	LeftTournament time.Time                       `datastore:",noindex,omitempty"`
+	BoardEntityBase
+	UserTimes     []time.Time                     `datastore:",noindex"`
+	UserMoves     slices.CommaSeparatedValuesList `datastore:",noindex,omitempty"`
+	UserWinCounts []int                           `datastore:",noindex"`
+	DrawsCount    int                             `datastore:",noindex,omitempty"`
 }
 
 type Board struct {
