@@ -20,8 +20,8 @@ func NewSize(width, height int) Size {
 	})
 }
 
-func NewCellAddress(x, y int) Size {
-	return Size([]rune{
+func NewCellAddress(x, y int) CellAddress {
+	return CellAddress([]rune{
 		'A'+rune(x),
 		'1'+rune(y),
 	})

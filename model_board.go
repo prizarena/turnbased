@@ -13,11 +13,18 @@ type BoardEntityBase struct {
 	Created          time.Time
 	UserIDs          []string
 	UserNames        []string  `datastore:",noindex"`
+	UserWins         []int     `datastore:",noindex"`
 	Round            int       `datastore:",noindex,omitempty"`
 	Lang             string    `datastore:",noindex,omitempty"`
 	TournamentID     string
 	TournamentLeft   time.Time `datastore:",noindex,omitempty"`
 	TournamentJoined time.Time `datastore:",noindex,omitempty"`
+}
+
+func (b *BoardEntityBase) AddUser(userID, userName string) {
+	b.UserIDs = append(b.UserIDs, userID)
+	b.UserNames = append(b.UserNames, userName)
+	b.UserWins = append(b.UserWins, 0)
 }
 
 type BoardEntity struct {
