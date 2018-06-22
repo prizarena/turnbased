@@ -17,6 +17,12 @@ func (ca CellAddress) X() int {
 }
 
 func NewSize(width, height int) Size {
+	if width <= 0 {
+		panic("width <= 0")
+	}
+	if height <= 0 {
+		panic("height <= 0")
+	}
 	var s bytes.Buffer
 	s.WriteRune('A' +rune(width)-1)
 	if height <= 9 {
