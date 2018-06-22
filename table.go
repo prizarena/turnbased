@@ -1,6 +1,9 @@
 package turnbased
 
-import "strconv"
+import (
+	"strconv"
+	"bytes"
+)
 
 type Transcript string
 
@@ -14,10 +17,14 @@ func (ca CellAddress) X() int {
 }
 
 func NewSize(width, height int) Size {
-	return Size([]rune{
-		'A'+rune(width-1),
-		'1'+rune(height-1),
-	})
+	var s bytes.Buffer
+	s.WriteRune('A' +rune(width)-1)
+	if height <= 9 {
+		s.WriteRune(rune(height-1))
+	} else {
+		s.WriteString(strconv.Itoa(height))
+	}
+	return Size(s.String())
 }
 
 func NewCellAddress(x, y int) CellAddress {
