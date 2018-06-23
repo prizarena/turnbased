@@ -24,9 +24,9 @@ func NewSize(width, height int) Size {
 		panic("height <= 0")
 	}
 	var s bytes.Buffer
-	s.WriteRune('A' +rune(width)-1)
+	s.WriteRune('A' + rune(width-1))
 	if height <= 9 {
-		s.WriteRune(rune(height-1))
+		s.WriteRune('1' + rune(height-1))
 	} else {
 		s.WriteString(strconv.Itoa(height))
 	}
@@ -35,8 +35,8 @@ func NewSize(width, height int) Size {
 
 func NewCellAddress(x, y int) CellAddress {
 	return CellAddress([]rune{
-		'A'+rune(x),
-		'1'+rune(y),
+		'A' + rune(x),
+		'1' + rune(y),
 	})
 }
 
@@ -49,11 +49,11 @@ func (ca CellAddress) XY() (x, y int) {
 }
 
 func (wh Size) Width() (width int) {
-	return CellAddress(wh).X()+1
+	return CellAddress(wh).X() + 1
 }
 
 func (wh Size) Height() (height int) {
-	return CellAddress(wh).Y()+1
+	return CellAddress(wh).Y() + 1
 }
 
 func (wh Size) WidthHeight() (width, height int) {
@@ -67,16 +67,16 @@ func (ca CellAddress) Y() int {
 	if y, err := strconv.Atoi(string(ca[1:])); err != nil {
 		panic(err)
 	} else {
-		return y-1
+		return y - 1
 	}
 }
 
-func(t Transcript) Cells() (cells []CellAddress) {
+func (t Transcript) Cells() (cells []CellAddress) {
 	l := len(t)
 	cells = make([]CellAddress, l/2)
 	var c int
-	for i := 0; i < l; i+=2  {
-		cells[c] = CellAddress(t[i:i+2])
+	for i := 0; i < l; i += 2 {
+		cells[c] = CellAddress(t[i : i+2])
 		c++
 	}
 	return
@@ -86,6 +86,6 @@ func (t Transcript) Count() int {
 	if l := len(t); l%2 != 0 {
 		panic("length is not even")
 	} else {
-		return l/2
+		return l / 2
 	}
 }
