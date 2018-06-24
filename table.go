@@ -52,6 +52,10 @@ func (wh Size) Width() (width int) {
 	return CellAddress(wh).X() + 1
 }
 
+func (wh Size) Count() (width int) {
+	return wh.Width() * wh.Height()
+}
+
 func (wh Size) Height() (height int) {
 	return CellAddress(wh).Y() + 1
 }
