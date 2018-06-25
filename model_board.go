@@ -15,6 +15,8 @@ type BoardEntityBase struct {
 	UserIDs          []string
 	UserNames        []string  `datastore:",noindex"`
 	UserWins         []int     `datastore:",noindex"`
+	UsersMin         int       `datastore:",noindex,omitempty"`
+	UsersMax         int       `datastore:",noindex,omitempty"`
 	Round            int       `datastore:",noindex,omitempty"`
 	Lang             string    `datastore:",noindex,omitempty"`
 	TournamentID     string
