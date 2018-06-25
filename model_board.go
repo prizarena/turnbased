@@ -19,9 +19,8 @@ type BoardEntityBase struct {
 	UsersMax         int       `datastore:",noindex,omitempty"`
 	Round            int       `datastore:",noindex,omitempty"`
 	Lang             string    `datastore:",noindex,omitempty"`
-	TournamentID     string
-	TournamentLeft   time.Time `datastore:",noindex,omitempty"`
-	TournamentJoined time.Time `datastore:",noindex,omitempty"`
+	TournamentID     string    `datastore:",omitempty"`
+	TournamentJson   string    `datastore:",noindex,omitempty"`
 }
 
 func (b *BoardEntityBase) AddUser(userID, userName string) {

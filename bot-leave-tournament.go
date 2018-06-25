@@ -3,8 +3,7 @@ package turnbased
 import (
 	"github.com/prizarena/prizarena-public/prizarena-client-go"
 	"github.com/strongo/db"
-	"time"
-	"github.com/strongo/bots-framework/core"
+		"github.com/strongo/bots-framework/core"
 )
 
 const LeaveTournamentCommandCode = "leave-tournament"
@@ -21,7 +20,8 @@ func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaTo
 			return err
 		}
 	}
-	board.TournamentLeft = time.Now()
+	panic("not implemented")
+	// board.TournamentLeft = time.Now()
 	if err = database.Update(c, &board); err != nil {
 		return
 	}
