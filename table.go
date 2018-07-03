@@ -44,6 +44,10 @@ func (ca CellAddress) IsXY(x, y int) bool {
 	return len(ca) != 0 && ca.X() == x && ca.Y() == y
 }
 
+func (ca CellAddress) Index(boardSize int) int {
+	return ca.Y()*boardSize + ca.X()
+}
+
 func (ca CellAddress) XY() (x, y int) {
 	return ca.X(), ca.Y()
 }
