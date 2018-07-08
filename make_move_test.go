@@ -42,7 +42,7 @@ func TestMakeMove(t *testing.T) {
 			}
 		}
 		if board.BoardEntity == nil {
-			t.Fatalf("case #%v: board.BoardEntity == nil", i+1)
+			t.Fatalf("case #%v: board.RevBoardEntity == nil", i+1)
 		}
 		if !slices.EqualStrings(board.UserIDs, testCase.expectedUserIDs) {
 			t.Fatalf("case #%v: Unexpected UserIDs=%v, expected: %v", i+1, board.UserIDs, testCase.expectedUserIDs)
