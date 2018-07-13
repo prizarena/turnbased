@@ -65,3 +65,16 @@ func GetBoardByID(c context.Context, database db.Database, boardID string) (boar
 	err = database.Get(c, &board)
 	return
 }
+
+func (bb BoardEntityBase) IsNewUser(userID string) bool {
+	return slices.IsInStringSlice(userID, bb.UserIDs)
+}
+
+func (bb BoardEntityBase) GetUserName(userID string) string {
+	for i, id := range bb.UserIDs {
+		if id == userID {
+			return bb.UserNames[i]
+		}
+	}
+	panic("unknown user id: " + userID)
+}
