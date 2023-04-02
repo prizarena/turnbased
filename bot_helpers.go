@@ -1,11 +1,11 @@
 package turnbased
 
 import (
-	"github.com/strongo/bots-framework/core"
-	"github.com/pkg/errors"
-	"github.com/strongo/slices"
 	"context"
+	"errors"
+	"github.com/strongo/bots-framework/core"
 	"github.com/strongo/log"
+	"github.com/strongo/slice"
 )
 
 func GetBoardID(whi bots.WebhookInput, boardID string) (string, error) {
@@ -34,7 +34,7 @@ func (m BoardUsersManagers) AddUserToBoard(
 	}
 	log.Debugf(c, "addUserToBoard")
 	var botAppUser bots.BotAppUser
-	if !slices.IsInStringSlice(userID, boardBase2.UserIDs) {
+	if slice.Index(boardBase2.UserIDs, userID) < 0 {
 		if userName == "" {
 			if botAppUser, err = getAppUser(); err != nil {
 				return

@@ -1,79 +1,63 @@
 package turnbased
 
 import (
-	"github.com/strongo/db"
-	"time"
-	"github.com/strongo/slices"
 	"context"
+	"github.com/strongo/csv"
+	"github.com/strongo/dalgo/dal"
+	"github.com/strongo/dalgo/record"
+	"github.com/strongo/slice"
+	"time"
 )
 
 const BoardKind = "B"
 
 type BoardEntityBase struct {
-	Created          time.Time
-	CreatorUserID    string    `datastore:",noindex,omitempty"`
-	UserIDs          []string
-	UserNames        []string  `datastore:",noindex"`
-	UserWins         []int     `datastore:",noindex"`
-	UsersMin         int       `datastore:",noindex,omitempty"`
-	UsersMax         int       `datastore:",noindex,omitempty"`
-	Round            int       `datastore:",noindex,omitempty"`
-	Lang             string    `datastore:",noindex,omitempty"`
-	TournamentID     string    `datastore:",omitempty"`
-	TournamentJson   string    `datastore:",noindex,omitempty"`
+	Created        time.Time
+	CreatorUserID  string `datastore:",noindex,omitempty"`
+	UserIDs        []string
+	UserNames      []string `datastore:",noindex"`
+	UserWins       []int    `datastore:",noindex"`
+	UsersMin       int      `datastore:",noindex,omitempty"`
+	UsersMax       int      `datastore:",noindex,omitempty"`
+	Round          int      `datastore:",noindex,omitempty"`
+	Lang           string   `datastore:",noindex,omitempty"`
+	TournamentID   string   `datastore:",omitempty"`
+	TournamentJson string   `datastore:",noindex,omitempty"`
 }
 
-func (b *BoardEntityBase) AddUser(userID, userName string) {
-	b.UserIDs = append(b.UserIDs, userID)
-	b.UserNames = append(b.UserNames, userName)
-	b.UserWins = append(b.UserWins, 0)
+func (v *BoardEntityBase) AddUser(userID, userName string) {
+	v.UserIDs = append(v.UserIDs, userID)
+	v.UserNames = append(v.UserNames, userName)
+	v.UserWins = append(v.UserWins, 0)
 }
 
 type BoardEntity struct {
 	BoardEntityBase
-	UserTimes     []time.Time                     `datastore:",noindex"`
-	UserMoves     slices.CommaSeparatedValuesList `datastore:",noindex,omitempty"`
-	UserWinCounts []int                           `datastore:",noindex"`
-	DrawsCount    int                             `datastore:",noindex,omitempty"`
+	UserTimes     []time.Time `datastore:",noindex"`
+	UserMoves     csv.String  `datastore:",noindex,omitempty"`
+	UserWinCounts []int       `datastore:",noindex"`
+	DrawsCount    int         `datastore:",noindex,omitempty"`
 }
 
 type Board struct {
-	db.StringID
+	record.WithID[string]
 	*BoardEntity
 }
 
-var _ db.EntityHolder = (*Board)(nil)
-
-func (Board) Kind() string {
-	return BoardKind
-}
-
-func (canvas *Board) SetEntity(v interface{}) {
-	canvas.BoardEntity = v.(*BoardEntity)
-}
-
-func (canvas Board) Entity() interface{} {
-	return canvas.BoardEntity
-}
-
-func (canvas Board) NewEntity() interface{} {
-	return &BoardEntity{}
-}
-
-func GetBoardByID(c context.Context, database db.Database, boardID string) (board Board, err error) {
+func GetBoardByID(c context.Context, database dal.Database, boardID string) (board Board, err error) {
 	board.ID = boardID
-	err = database.Get(c, &board)
+	err = database.Get(c, board.Record)
 	return
 }
 
-func (bb BoardEntityBase) IsNewUser(userID string) bool {
-	return slices.IsInStringSlice(userID, bb.UserIDs)
+func (v BoardEntityBase) IsNewUser(userID string) bool {
+	return slice.Index(v.UserIDs, userID) < 0
 }
 
-func (bb BoardEntityBase) GetUserName(userID string) string {
-	for i, id := range bb.UserIDs {
+func (v BoardEntityBase) GetUserName(userID string) string {
+	for i, id := range v.UserIDs {
 		if id == userID {
-			return bb.UserNames[i]
+			return v.UserNames[i]
 		}
 	}
 	panic("unknown user id: " + userID)

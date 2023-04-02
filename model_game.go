@@ -1,8 +1,8 @@
 package turnbased
 
 import (
+	"github.com/strongo/dalgo/record"
 	"time"
-	"github.com/strongo/db"
 )
 
 type PlayEntity struct {
@@ -20,6 +20,6 @@ type SingleTurnPlayEntity struct {
 }
 
 type SingleTurnPlay struct {
-	db.StringID
+	record.WithID[string]
 	*SingleTurnPlayEntity
 }

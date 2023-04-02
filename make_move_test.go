@@ -1,9 +1,10 @@
 package turnbased
 
 import (
-	"testing"
 	"context"
-	"github.com/strongo/slices"
+	"github.com/golang/mock/gomock"
+	"github.com/strongo/slice"
+	"testing"
 	"time"
 )
 
@@ -30,7 +31,8 @@ func TestMakeMove(t *testing.T) {
 
 	var err error
 
-	database := newMockDB(c)
+	mockCtrl := gomock.NewController(t)
+	database := newMockDB(mockCtrl)
 
 	for i, testCase := range testCases {
 		if testCase.round == 0 {
@@ -44,9 +46,9 @@ func TestMakeMove(t *testing.T) {
 		if board.BoardEntity == nil {
 			t.Fatalf("case #%v: board.RevBoardEntity == nil", i+1)
 		}
-		if !slices.EqualStrings(board.UserIDs, testCase.expectedUserIDs) {
+		if !slice.Equal(board.UserIDs, testCase.expectedUserIDs) {
 			t.Fatalf("case #%v: Unexpected UserIDs=%v, expected: %v", i+1, board.UserIDs, testCase.expectedUserIDs)
 		}
-		database.Update(c, &board)
+		//database.Update(c, &board)
 	}
 }

@@ -1,22 +1,22 @@
 package turnbased
 
 import (
-	"github.com/strongo/db"
 	"context"
-	"fmt"
-	"time"
 	"errors"
-	"github.com/strongo/slices"
+	"fmt"
+	"github.com/strongo/csv"
+	"github.com/strongo/dalgo/dal"
+	"time"
 )
 
 var (
-	ErrOldRound = errors.New("old round")
+	ErrOldRound     = errors.New("old round")
 	ErrUnknownRound = errors.New("unknown round")
 )
 
-func MakeMove(c context.Context, now time.Time, database db.Database, round int, lang, boardID, userID, userName, move string) (board Board, err error) {
+func MakeMove(c context.Context, now time.Time, database dal.Database, round int, lang, boardID, userID, userName, move string) (board Board, err error) {
 	if board, err = GetBoardByID(c, database, boardID); err != nil {
-		if db.IsNotFound(err) {
+		if dal.IsNotFound(err) {
 			err = nil
 			// New canvas
 			if round != 1 {
@@ -25,13 +25,13 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 			}
 			board.BoardEntity = &BoardEntity{
 				BoardEntityBase: BoardEntityBase{
-					Lang: lang,
-					Round: round,
-					Created: now,
-					UserIDs: []string{userID},
+					Lang:      lang,
+					Round:     round,
+					Created:   now,
+					UserIDs:   []string{userID},
 					UserNames: []string{userName},
 				},
-				UserMoves: slices.CommaSeparatedValuesList(move),
+				UserMoves: csv.String(move),
 				UserTimes: []time.Time{now},
 			}
 		}
@@ -46,15 +46,15 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 		}
 	}
 	userIDsCount := len(board.UserIDs)
-	userMovesCount := board.UserMoves.Count()
-	if userMovesCount > userIDsCount  {
+	userMovesCount := len(board.UserMoves.Values())
+	if userMovesCount > userIDsCount {
 		err = fmt.Errorf("userMovesCount > userIDsCount: %v > %v", userMovesCount, userIDsCount)
 		return
 	}
 	switch userIDsCount {
 	case 1:
 		if userID == board.UserIDs[0] {
-			board.UserMoves = slices.CommaSeparatedValuesList(move)
+			board.UserMoves = csv.String(move)
 		} else {
 			board.UserIDs = append(board.UserIDs, userID)
 			board.UserNames = append(board.UserNames, userName)
@@ -66,9 +66,9 @@ func MakeMove(c context.Context, now time.Time, database db.Database, round int,
 		case 0:
 			switch userID {
 			case board.UserIDs[0]:
-				board.UserMoves = slices.CommaSeparatedValuesList(move)
+				board.UserMoves = csv.String(move)
 			case board.UserIDs[1]:
-				board.UserMoves = slices.CommaSeparatedValuesList(","+ move)
+				board.UserMoves = csv.String("," + move)
 			default:
 
 			}

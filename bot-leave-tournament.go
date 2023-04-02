@@ -1,14 +1,16 @@
 package turnbased
 
 import (
+	"context"
+	"errors"
 	"github.com/prizarena/prizarena-public/prizarena-client-go"
-	"github.com/strongo/db"
-		"github.com/strongo/bots-framework/core"
+	"github.com/strongo/bots-framework/core"
+	"github.com/strongo/dalgo/dal"
 )
 
 const LeaveTournamentCommandCode = "leave-tournament"
 
-func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaToken string, database db.Database, board Board) (err error) {
+func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaToken string, database dal.Database, board Board) (err error) {
 	c := whc.Context()
 	httpClient := whc.BotContext().BotHost.GetHTTPClient(c)
 	apiClient := prizarena.NewHttpApiClient(httpClient, "", prizarenaGameID, prizarenaToken)
@@ -22,8 +24,11 @@ func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaTo
 	}
 	panic("not implemented")
 	// board.TournamentLeft = time.Now()
-	if err = database.Update(c, &board); err != nil {
-		return
-	}
+	database.RunReadwriteTransaction(c, func(c context.Context, tx dal.ReadwriteTransaction) error {
+		//if err = tx.Set(c, &board); err != nil {
+		//	return
+		//}
+		return errors.New("not implemented")
+	})
 	return
 }

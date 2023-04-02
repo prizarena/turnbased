@@ -1,11 +1,11 @@
 package turnbased
 
 import (
-	"github.com/strongo/db"
-	"github.com/strongo/db/mockdb"
-	"context"
+	"github.com/golang/mock/gomock"
+	"github.com/strongo/dalgo/dal"
+	"github.com/strongo/dalgo/mock_dal"
 )
 
-func newMockDB(c context.Context) (mockDB db.Database) {
-	return mockdb.NewMockDB(nil, nil)
+func newMockDB(ctrl *gomock.Controller) (mockDB dal.Database) {
+	return mock_dal.NewMockDatabase(ctrl)
 }
