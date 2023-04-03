@@ -41,11 +41,14 @@ type BoardEntity struct {
 
 type Board struct {
 	record.WithID[string]
-	*BoardEntity
+	Data *BoardEntity
 }
 
 func GetBoardByID(c context.Context, database dal.Database, boardID string) (board Board, err error) {
 	board.ID = boardID
+	board.Data = new(BoardEntity)
+	key := dal.NewKeyWithID(BoardKind, boardID)
+	board.Record = dal.NewRecordWithData(key, board.Data)
 	err = database.Get(c, board.Record)
 	return
 }

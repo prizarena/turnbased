@@ -4,20 +4,20 @@ import (
 	"context"
 	"errors"
 	"github.com/prizarena/prizarena-public/prizarena-client-go"
-	"github.com/strongo/bots-framework/core"
+	"github.com/strongo/bots-framework/botsfw"
 	"github.com/strongo/dalgo/dal"
 )
 
 const LeaveTournamentCommandCode = "leave-tournament"
 
-func LeaveTournamentAction(whc bots.WebhookContext, prizarenaGameID, prizarenaToken string, database dal.Database, board Board) (err error) {
+func LeaveTournamentAction(whc botsfw.WebhookContext, prizarenaGameID, prizarenaToken string, database dal.Database, board Board) (err error) {
 	c := whc.Context()
 	httpClient := whc.BotContext().BotHost.GetHTTPClient(c)
 	apiClient := prizarena.NewHttpApiClient(httpClient, "", prizarenaGameID, prizarenaToken)
 	if err = apiClient.LeaveTournament(c, board.ID); err != nil {
 		return
 	}
-	if board.BoardEntity == nil {
+	if board.Data == nil {
 		if board, err = GetBoardByID(c, database, board.ID); err != nil {
 			return err
 		}
