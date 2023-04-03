@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/golang/mock v1.6.0
-	github.com/prizarena/prizarena-public v0.0.0-20230328221205-ecbf1261895d
+	github.com/prizarena/prizarena-public v0.0.2
 	github.com/strongo/bots-framework v0.9.7
 	github.com/strongo/csv v1.0.0
 	github.com/strongo/dalgo v0.1.0
@@ -26,5 +26,3 @@ require (
 	github.com/strongo/gamp v0.0.0-20180514004759-fdf2ce90b6b9 // indirect
 	github.com/strongo/random v0.0.1 // indirect
 )
-
-replace github.com/prizarena/prizarena-public => ../prizarena-public

@@ -18,6 +18,8 @@ github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7 h1:xoIK0ctDddBMnc74
 github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7/go.mod h1:YARuvh7BUWHNhzDq2OM5tzR2RiCcN2D7sapiKyCel/M=
 github.com/prizarena/arena v0.0.4 h1:jTRXknfse7TFAkTgdnFDFkAprTA2gtQjOK4Ch0IA+OA=
 github.com/prizarena/arena v0.0.4/go.mod h1:+BA417UxOVSA2UpkKDAmonso+1QVAjcpXptVn2hq3ec=
+github.com/prizarena/prizarena-public v0.0.2 h1:AFFe2Nzr1XlwmX6hN7YVdIiBM5Ns4WuT0rq634Dop7I=
+github.com/prizarena/prizarena-public v0.0.2/go.mod h1:/IzPgbPoxwVNeiKlu0+IFkJL4Dn7sknjBuRcwdiVQXc=
 github.com/rogpeppe/go-internal v1.9.0 h1:73kH8U+JUqXU8lRuOHeVHaa/SZPifC7BkcraZVejAe8=
 github.com/rogpeppe/go-internal v1.9.0/go.mod h1:WtVeX8xhTBvf0smdhujwtBcq4Qrzq/fJaraNFVN+nFs=
 github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=
