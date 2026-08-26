@@ -1,6 +1,8 @@
 module github.com/prizarena/turnbased
 
-go 1.27.0
+go 1.26.0
+
+toolchain go1.27.0
 
 require (
 	github.com/golang/mock v1.6.0
